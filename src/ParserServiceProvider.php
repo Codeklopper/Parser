@@ -1,6 +1,5 @@
 <?php namespace Nathanmac\Utilities\Parser;
 
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -26,25 +25,13 @@ class ParserServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app->bind('Parser', function($app) {
+        $this->app->bindShared('Parser', function($app) {
             return new Parser;
         });
-    }
 
-    /**
-     * Bootstrap the application events.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->package('nathanmac/parser');
-
-        AliasLoader::getInstance()->alias(
-            'Parser',
-            'Nathanmac\Utilities\Parser\Facades\Parser'
-        );
+        $this->app->alias('Parser', 'Nathanmac\Utilities\Parser\Facades\Parser');
     }
+    
 
     /**
      * Get the services provided by the provider.
